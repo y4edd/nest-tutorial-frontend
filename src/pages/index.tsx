@@ -13,6 +13,16 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
+
+      <div className={styles.container}>
+        <h1>Nest.js Blog</h1>
+        <ul className={styles.postList}>
+          <li className={styles.post}>
+            <h2 className={styles.title}>初めての投稿</h2>
+            <p className={styles.author}>By y4edd</p>
+          </li>
+        </ul>
+      </div>
     </>
   );
 }

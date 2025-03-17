@@ -1,10 +1,25 @@
 import Head from "next/head";
-import { Inter } from "next/font/google";
 import styles from "@/styles/Home.module.css";
+import { getAllPosts } from "@/utils/api";
+import { PostType } from "@/utils/Types";
 
-const inter = Inter({ subsets: ["latin"] });
+type Props = {
+  posts: PostType[]
+}
 
-export default function Home() {
+
+// SSG.記事の投稿をビルド時に全部取得する静的生成
+export async function getStaticProps() {
+  const posts:PostType[] = await getAllPosts();
+
+  return {
+    props: {
+      posts,
+    },
+  }
+}
+
+export default function Home({ posts }: Props) {
   return (
     <>
       <Head>
@@ -17,10 +32,12 @@ export default function Home() {
       <div className={styles.container}>
         <h1>Nest.js Blog</h1>
         <ul className={styles.postList}>
-          <li className={styles.post}>
-            <h2 className={styles.title}>初めての投稿</h2>
-            <p className={styles.author}>By y4edd</p>
-          </li>
+          {posts.map((post: PostType) => (
+            <li className={styles.post} key={post.id}>
+              <h2 className={styles.title}>{post.title}</h2>
+              <p className={styles.author}>{post.author}</p>
+            </li>
+          ))}
         </ul>
       </div>
     </>
